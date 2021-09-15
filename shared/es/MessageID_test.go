@@ -3,7 +3,6 @@ package es_test
 import (
 	"testing"
 
-	"github.com/google/uuid"
 	. "github.com/smartystreets/goconvey/convey"
 
 	"github.com/AntonStoeckl/go-aip-es/shared/es"
@@ -29,21 +28,6 @@ func TestMessageID_Build(t *testing.T) {
 
 			Convey("And it should equal the input messageID", func() {
 				So(messageID.Equals(otherMessageID), ShouldBeTrue)
-			})
-		})
-	})
-}
-
-func TestMessageID_Rebuild(t *testing.T) {
-	Convey("When a MessageID is rebuilt from string", t, func() {
-		messageIDString := uuid.New().String()
-		messageID := es.RebuildMessageID(messageIDString)
-
-		Convey("It should not be empty", func() {
-			So(messageID, ShouldNotBeEmpty)
-
-			Convey("And it should expose the expected value", func() {
-				So(messageID.String(), ShouldEqual, messageIDString)
 			})
 		})
 	})

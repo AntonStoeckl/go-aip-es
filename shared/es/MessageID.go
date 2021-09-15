@@ -14,10 +14,6 @@ func BuildMessageID(from MessageID) MessageID {
 	return from
 }
 
-func RebuildMessageID(from string) MessageID {
-	return MessageID(from)
-}
-
 func (messageID MessageID) String() string {
 	return string(messageID)
 }

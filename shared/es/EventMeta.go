@@ -43,23 +43,6 @@ func buildEventName(event DomainEvent) string {
 	return eventName
 }
 
-func RebuildEventMeta(
-	eventName string,
-	occurredAt string,
-	messageID string,
-	causationID string,
-	streamVersion uint,
-) EventMeta {
-
-	return EventMeta{
-		eventName:     eventName,
-		occurredAt:    occurredAt,
-		messageID:     messageID,
-		causationID:   causationID,
-		streamVersion: streamVersion,
-	}
-}
-
 func (eventMeta EventMeta) EventName() string {
 	return eventMeta.eventName
 }
