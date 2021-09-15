@@ -23,6 +23,8 @@ func buildCurrentStateFrom(eventStream es.EventStream) currentState {
 			customer.emailAddress = actualEvent.EmailAddress()
 		case domain.CustomerEmailAddressConfirmed:
 			customer.emailAddress = actualEvent.EmailAddress()
+		case domain.CustomerNameChanged:
+			customer.personName = actualEvent.PersonName()
 		}
 
 		customer.currentStreamVersion = event.Meta().StreamVersion()
