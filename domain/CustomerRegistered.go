@@ -30,25 +30,6 @@ func BuildCustomerRegistered(
 	return event
 }
 
-func RebuildCustomerRegistered(
-	customerID string,
-	emailAddress string,
-	confirmationHash string,
-	givenName string,
-	familyName string,
-	meta es.EventMeta,
-) CustomerRegistered {
-
-	event := CustomerRegistered{
-		customerID:   RebuildCustomerID(customerID),
-		emailAddress: RebuildUnconfirmedEmailAddress(emailAddress, confirmationHash),
-		personName:   RebuildPersonName(givenName, familyName),
-		meta:         meta,
-	}
-
-	return event
-}
-
 func (event CustomerRegistered) CustomerID() CustomerID {
 	return event.customerID
 }

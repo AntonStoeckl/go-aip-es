@@ -27,22 +27,6 @@ func BuildCustomerNameChanged(
 	return event
 }
 
-func RebuildCustomerNameChanged(
-	customerID string,
-	givenName string,
-	familyName string,
-	meta es.EventMeta,
-) CustomerNameChanged {
-
-	event := CustomerNameChanged{
-		customerID: RebuildCustomerID(customerID),
-		personName: RebuildPersonName(givenName, familyName),
-		meta:       meta,
-	}
-
-	return event
-}
-
 func (event CustomerNameChanged) CustomerID() CustomerID {
 	return event.customerID
 }

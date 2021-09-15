@@ -1,9 +1,6 @@
 package domain
 
 import (
-	"github.com/cockroachdb/errors"
-
-	"github.com/AntonStoeckl/go-aip-es/shared"
 	"github.com/AntonStoeckl/go-aip-es/shared/es"
 )
 
@@ -29,23 +26,6 @@ func BuildCustomerEmailAddressConfirmationFailed(
 	}
 
 	event.meta = es.BuildEventMeta(event, causationID, streamVersion)
-
-	return event
-}
-
-func RebuildCustomerEmailAddressConfirmationFailed(
-	customerID string,
-	confirmationHash string,
-	reason string,
-	meta es.EventMeta,
-) CustomerEmailAddressConfirmationFailed {
-
-	event := CustomerEmailAddressConfirmationFailed{
-		customerID:       RebuildCustomerID(customerID),
-		confirmationHash: RebuildConfirmationHash(confirmationHash),
-		reason:           errors.Mark(errors.New(reason), shared.ErrDomainConstraintsViolation),
-		meta:             meta,
-	}
 
 	return event
 }
