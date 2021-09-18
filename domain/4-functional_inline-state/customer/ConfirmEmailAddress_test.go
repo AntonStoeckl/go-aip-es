@@ -6,7 +6,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"github.com/AntonStoeckl/go-aip-es/domain"
-	"github.com/AntonStoeckl/go-aip-es/domain/functional_inline-state/customer"
+	"github.com/AntonStoeckl/go-aip-es/domain/4-functional_inline-state/customer"
 	"github.com/AntonStoeckl/go-aip-es/shared/es"
 )
 

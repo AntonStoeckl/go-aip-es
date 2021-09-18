@@ -6,7 +6,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"github.com/AntonStoeckl/go-aip-es/domain"
-	. "github.com/AntonStoeckl/go-aip-es/domain/oopish_returning-events/customer"
+	. "github.com/AntonStoeckl/go-aip-es/domain/1-oopish_recording-events/customer"
 	"github.com/AntonStoeckl/go-aip-es/shared/es"
 )
 
@@ -26,9 +26,13 @@ func TestRegister(t *testing.T) {
 
 		Convey("\nSCENARIO: Register a Customer", func() {
 			Convey("When RegisterCustomer", func() {
-				event := Register(command)
+				customer := Register(command)
+				recordedEvents := customer.RecordedEvents()
 
 				Convey("Then CustomerRegistered", func() {
+					So(recordedEvents, ShouldHaveLength, 1)
+					event, ok := recordedEvents[0].(domain.CustomerRegistered)
+					So(ok, ShouldBeTrue)
 					So(event.CustomerID().Equals(customerID), ShouldBeTrue)
 					So(event.EmailAddress().Equals(emailAddress), ShouldBeTrue)
 					So(event.EmailAddress().ConfirmationHash().Equals(emailAddress.ConfirmationHash()), ShouldBeTrue)
@@ -83,7 +87,8 @@ func TestConfirmEmailAddress(t *testing.T) {
 
 				Convey("When ConfirmCustomerEmailAddress", func() {
 					customer := ReconstituteCustomer(eventStream)
-					recordedEvents = customer.ConfirmEmailAddress(command)
+					customer.ConfirmEmailAddress(command)
+					recordedEvents = customer.RecordedEvents()
 
 					Convey("Then CustomerEmailAddressConfirmed", func() {
 						So(recordedEvents, ShouldHaveLength, 1)
@@ -105,7 +110,8 @@ func TestConfirmEmailAddress(t *testing.T) {
 
 				Convey("When ConfirmCustomerEmailAddress", func() {
 					customer := ReconstituteCustomer(eventStream)
-					recordedEvents = customer.ConfirmEmailAddress(commandWithInvalidHash)
+					customer.ConfirmEmailAddress(commandWithInvalidHash)
+					recordedEvents = customer.RecordedEvents()
 
 					Convey("Then CustomerEmailAddressConfirmationFailed", func() {
 						So(recordedEvents, ShouldHaveLength, 1)
@@ -132,7 +138,8 @@ func TestConfirmEmailAddress(t *testing.T) {
 
 					Convey("When ConfirmCustomerEmailAddress", func() {
 						customer := ReconstituteCustomer(eventStream)
-						recordedEvents = customer.ConfirmEmailAddress(command)
+						customer.ConfirmEmailAddress(command)
+						recordedEvents = customer.RecordedEvents()
 
 						Convey("Then no event", func() {
 							So(recordedEvents, ShouldBeEmpty)
@@ -151,7 +158,8 @@ func TestConfirmEmailAddress(t *testing.T) {
 
 					Convey("When ConfirmCustomerEmailAddress", func() {
 						customer := ReconstituteCustomer(eventStream)
-						recordedEvents = customer.ConfirmEmailAddress(command)
+						customer.ConfirmEmailAddress(command)
+						recordedEvents = customer.RecordedEvents()
 
 						Convey("Then no event", func() {
 							So(recordedEvents, ShouldBeEmpty)
@@ -193,7 +201,8 @@ func TestChangeName(t *testing.T) {
 
 				Convey("When ChangeCustomerName", func() {
 					customer := ReconstituteCustomer(eventStream)
-					recordedEvents = customer.ChangeName(command)
+					customer.ChangeName(command)
+					recordedEvents = customer.RecordedEvents()
 
 					Convey("Then CustomerNameChanged", func() {
 						So(recordedEvents, ShouldHaveLength, 1)
@@ -218,7 +227,8 @@ func TestChangeName(t *testing.T) {
 
 				Convey("When ChangeCustomerName", func() {
 					customer := ReconstituteCustomer(eventStream)
-					recordedEvents = customer.ChangeName(commandWithOriginalName)
+					customer.ChangeName(commandWithOriginalName)
+					recordedEvents = customer.RecordedEvents()
 
 					Convey("Then no event", func() {
 						So(recordedEvents, ShouldBeEmpty)
@@ -243,7 +253,8 @@ func TestChangeName(t *testing.T) {
 
 					Convey("When ChangeCustomerName", func() {
 						customer := ReconstituteCustomer(eventStream)
-						recordedEvents = customer.ChangeName(command)
+						customer.ChangeName(command)
+						recordedEvents = customer.RecordedEvents()
 
 						Convey("Then no event", func() {
 							So(recordedEvents, ShouldBeEmpty)

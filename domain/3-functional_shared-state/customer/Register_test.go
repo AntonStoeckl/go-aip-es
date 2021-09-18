@@ -6,7 +6,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 
 	"github.com/AntonStoeckl/go-aip-es/domain"
-	"github.com/AntonStoeckl/go-aip-es/domain/functional_shared-state/customer"
+	"github.com/AntonStoeckl/go-aip-es/domain/3-functional_shared-state/customer"
 )
 
 func TestRegister(t *testing.T) {
