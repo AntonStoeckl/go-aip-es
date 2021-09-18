@@ -48,8 +48,7 @@ func TestConfirmEmailAddress(t *testing.T) {
 				eventStream := es.EventStream{customerRegistered}
 
 				Convey("When ConfirmCustomerEmailAddress", func() {
-					recordedEvents, err = customer.ConfirmEmailAddress(eventStream, command)
-					So(err, ShouldBeNil)
+					recordedEvents = customer.ConfirmEmailAddress(eventStream, command)
 
 					Convey("Then CustomerEmailAddressConfirmed", func() {
 						So(recordedEvents, ShouldHaveLength, 1)
@@ -70,8 +69,7 @@ func TestConfirmEmailAddress(t *testing.T) {
 				eventStream := es.EventStream{customerRegistered}
 
 				Convey("When ConfirmCustomerEmailAddress", func() {
-					recordedEvents, err = customer.ConfirmEmailAddress(eventStream, commandWithInvalidHash)
-					So(err, ShouldBeNil)
+					recordedEvents = customer.ConfirmEmailAddress(eventStream, commandWithInvalidHash)
 
 					Convey("Then CustomerEmailAddressConfirmationFailed", func() {
 						So(recordedEvents, ShouldHaveLength, 1)
@@ -97,8 +95,7 @@ func TestConfirmEmailAddress(t *testing.T) {
 					eventStream = append(eventStream, customerEmailAddressConfirmed)
 
 					Convey("When ConfirmCustomerEmailAddress", func() {
-						recordedEvents, err = customer.ConfirmEmailAddress(eventStream, command)
-						So(err, ShouldBeNil)
+						recordedEvents = customer.ConfirmEmailAddress(eventStream, command)
 
 						Convey("Then no event", func() {
 							So(recordedEvents, ShouldBeEmpty)
@@ -116,8 +113,7 @@ func TestConfirmEmailAddress(t *testing.T) {
 					eventStream = append(eventStream, customerEmailAddressConfirmed)
 
 					Convey("When ConfirmCustomerEmailAddress", func() {
-						recordedEvents, err = customer.ConfirmEmailAddress(eventStream, commandWithInvalidHash)
-						So(err, ShouldBeNil)
+						recordedEvents = customer.ConfirmEmailAddress(eventStream, commandWithInvalidHash)
 
 						Convey("Then no event", func() {
 							So(recordedEvents, ShouldBeEmpty)

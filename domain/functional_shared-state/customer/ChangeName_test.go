@@ -39,8 +39,7 @@ func TestChangeName(t *testing.T) {
 				eventStream := es.EventStream{customerRegistered}
 
 				Convey("When ChangeCustomerName", func() {
-					recordedEvents, err = customer.ChangeName(eventStream, command)
-					So(err, ShouldBeNil)
+					recordedEvents = customer.ChangeName(eventStream, command)
 
 					Convey("Then CustomerNameChanged", func() {
 						So(recordedEvents, ShouldHaveLength, 1)
@@ -64,8 +63,7 @@ func TestChangeName(t *testing.T) {
 				eventStream := es.EventStream{customerRegistered}
 
 				Convey("When ChangeCustomerName", func() {
-					recordedEvents, err = customer.ChangeName(eventStream, commandWithOriginalName)
-					So(err, ShouldBeNil)
+					recordedEvents = customer.ChangeName(eventStream, commandWithOriginalName)
 
 					Convey("Then no event", func() {
 						So(recordedEvents, ShouldBeEmpty)
@@ -89,8 +87,7 @@ func TestChangeName(t *testing.T) {
 					eventStream = append(eventStream, nameChanged)
 
 					Convey("When ChangeCustomerName", func() {
-						recordedEvents, err = customer.ChangeName(eventStream, command)
-						So(err, ShouldBeNil)
+						recordedEvents = customer.ChangeName(eventStream, command)
 
 						Convey("Then no event", func() {
 							So(recordedEvents, ShouldBeEmpty)

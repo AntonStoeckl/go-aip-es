@@ -5,7 +5,7 @@ import (
 	"github.com/AntonStoeckl/go-aip-es/shared/es"
 )
 
-func ChangeName(eventStream es.EventStream, command domain.ChangeCustomerName) (es.RecordedEvents, error) {
+func ChangeName(eventStream es.EventStream, command domain.ChangeCustomerName) es.RecordedEvents {
 	var customer struct {
 		id                   domain.CustomerID
 		personName           domain.PersonName
@@ -25,7 +25,7 @@ func ChangeName(eventStream es.EventStream, command domain.ChangeCustomerName) (
 	}
 
 	if customer.personName.Equals(command.PersonName()) {
-		return nil, nil
+		return nil
 	}
 
 	event := domain.BuildCustomerNameChanged(
@@ -35,5 +35,5 @@ func ChangeName(eventStream es.EventStream, command domain.ChangeCustomerName) (
 		customer.currentStreamVersion+1,
 	)
 
-	return es.RecordedEvents{event}, nil
+	return es.RecordedEvents{event}
 }

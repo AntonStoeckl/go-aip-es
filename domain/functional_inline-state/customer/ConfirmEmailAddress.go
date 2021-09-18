@@ -5,7 +5,7 @@ import (
 	"github.com/AntonStoeckl/go-aip-es/shared/es"
 )
 
-func ConfirmEmailAddress(eventStream es.EventStream, command domain.ConfirmCustomerEmailAddress) (es.RecordedEvents, error) {
+func ConfirmEmailAddress(eventStream es.EventStream, command domain.ConfirmCustomerEmailAddress) es.RecordedEvents {
 	var customer struct {
 		id                   domain.CustomerID
 		emailAddress         domain.EmailAddress
@@ -26,7 +26,7 @@ func ConfirmEmailAddress(eventStream es.EventStream, command domain.ConfirmCusto
 
 	switch actualEmailAddress := customer.emailAddress.(type) {
 	case domain.ConfirmedEmailAddress:
-		return nil, nil
+		return nil
 	case domain.UnconfirmedEmailAddress:
 		confirmedEmailAddress, err := domain.ConfirmEmailAddressWithHash(actualEmailAddress, command.ConfirmationHash())
 
@@ -39,7 +39,7 @@ func ConfirmEmailAddress(eventStream es.EventStream, command domain.ConfirmCusto
 					command.MessageID(),
 					customer.currentStreamVersion+1,
 				),
-			}, nil
+			}
 		}
 
 		return es.RecordedEvents{
@@ -49,7 +49,7 @@ func ConfirmEmailAddress(eventStream es.EventStream, command domain.ConfirmCusto
 				command.MessageID(),
 				customer.currentStreamVersion+1,
 			),
-		}, nil
+		}
 	default:
 		// until Go has "union types" we need to use an interface and this case could exist - we don't want to hide it
 		panic("ConfirmEmailAddress(): emailAddress is neither UnconfirmedEmailAddress nor ConfirmedEmailAddress")
